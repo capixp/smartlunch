@@ -22,7 +22,7 @@ export default function OrderSummary() {
 
   const handleCreateOrder = async (formData: FormData) => {
     const data = {
-      name: formData.get("codigoFamilia"),
+      name: "Removed", //formData.get("codigoFamilia"),
       codigoFamilia: formData.get("codigoFamilia"),
       total,
       order,
@@ -36,9 +36,18 @@ export default function OrderSummary() {
     }
 
     const response = await createOrder(data);
-    if (response?.errors) {
+    /* if (response?.errors) {
       response.errors.forEach((issue) => toast.error(issue.message));
+    } */
+
+    if (response?.errors?.length) {
+      const uniqueMessages = new Set(response.errors.map((e) => e.message));
+
+      uniqueMessages.forEach((message) => {
+        toast.error(message);
+      });
     }
+
     toast.success("Pedido Realizado Correctamente");
     clearOrder();
   };
