@@ -8,13 +8,11 @@ datasource db {
 }
 
 model Category {
-  id    Int     @id @default(autoincrement())
-  name  String
-  slug  String  @unique
-
-  Product Product[]
+  id       Int      @id @default(autoincrement())
+  name     String
+  slug     String   @unique
+  products Product[]
 }
-
 
 model Product {
   id         Int      @id @default(autoincrement())
@@ -24,7 +22,27 @@ model Product {
   categoryId Int
 
   category   Category @relation(fields: [categoryId], references: [id])
+  orderItems OrderProducts[]
 
   @@unique([name, categoryId], name: "name_categoryId")
 }
 
+model Order {
+  id            Int             @id @default(autoincrement())
+  name          String
+  codigoFamilia String
+  total         Float
+  date          DateTime        @default(now())
+  status        Boolean         @default(false)
+  orderReadyAt  DateTime?
+  orderProducts OrderProducts[]
+}
+
+model OrderProducts {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+}
