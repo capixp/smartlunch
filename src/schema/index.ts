@@ -15,3 +15,10 @@ export const OrderSchema = z.object({
     })
   ),
 });
+
+export const OrderIdSchema = z.object({
+  orderId: z
+    .string()
+    .transform((value) => parseInt(value))
+    .refine((value) => value > 0, { message: "Hay errores" }),
+});
