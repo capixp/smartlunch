@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import Heading from "@/components/ui/Heading";
 import React from "react";
 import { prisma } from "@/lib/prisma";
